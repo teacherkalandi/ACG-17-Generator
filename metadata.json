@@ -1,0 +1,6 @@
+{
+  "name": "A.C.G.-17 Receipt Generator",
+  "description": "A tool to generate and print India Post A.C.G.-17 receipts based on user input.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

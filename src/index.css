@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@media print {
+  @page {
+    margin: 0;
+    size: auto;
+  }
+  
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background-color: white !important;
+  }
+
+  /* Make sure the receipt takes up the full width/height naturally in print */
+  #printable-receipt {
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 20mm !important; /* Add some margin for the printed page */
+  }
+}
