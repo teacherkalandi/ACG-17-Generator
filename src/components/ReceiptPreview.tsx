@@ -89,12 +89,12 @@ export function ReceiptPreview({ data }: ReceiptPreviewProps) {
       </div>
 
       {/* Row 5: /Rs. */}
-      <div className="font-bold text-[16px] mb-8 mt-6">
+      <div className="font-bold text-[16px] mb-6 mt-4">
         /Rs. <span className="italic ml-12">{data.amount}</span>
       </div>
 
       {/* Signatures Area */}
-      <div className="flex justify-between items-end font-bold text-[15px] mt-12 mb-6">
+      <div className="flex justify-between items-end font-bold text-[15px] mt-8 mb-4">
         <div>Witnessed Payment</div>
         <div className="italic pr-24">Rev Stamp</div>
       </div>
@@ -119,27 +119,27 @@ export function ReceiptPreview({ data }: ReceiptPreviewProps) {
       </div>
 
       {/* Certified */}
-      <div className="font-bold text-[15px] mb-12 mt-2">
+      <div className="font-bold text-[15px] mb-8 mt-2">
         1. Certified that the amount included in the voucher has been disbursed to the proper person.
       </div>
       
-      <div className="flex justify-end font-bold mb-12 pr-8 text-[15px]">
+      <div className="flex justify-end font-bold mb-8 pr-8 text-[15px]">
         Paying Officer
       </div>
       
-      <div className="flex justify-end font-bold mb-12 pr-8 text-[15px]">
+      <div className="flex justify-end font-bold mb-8 pr-8 text-[15px]">
         Counter Signed
       </div>
 
-      <div className="flex justify-end font-bold mb-8 pr-8 text-[15px]">
+      <div className="flex justify-end font-bold mb-6 pr-8 text-[15px]">
         Disbursing Officer
       </div>
 
-      <div className="font-bold text-[15px] leading-snug mb-10 text-justify">
+      <div className="font-bold text-[15px] leading-snug mb-8 text-justify">
         2. Received contents and certified that I have satisfied myself that all advances included in receipt form A.C.G. 17 drawn 1 month / 2 months / 3 months previous to this date with the exception of those detailed below (of which the total has been refunded from this receipt) has been disbursed to the proper persons and that their acceptances have been taken & filed in my office with receipt stamps duly cancelled for every payment in excess of Rs. 5000/-
       </div>
 
-      <div className="flex justify-between font-bold items-end pr-8 text-[15px] pb-12">
+      <div className="flex justify-between font-bold items-end pr-8 text-[15px] pb-4">
         <div className="flex">
           <span className="w-20">Date:</span>
           <span className="italic">{data.date}</span>
