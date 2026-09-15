@@ -48,12 +48,19 @@ export default function App() {
     if (!element) return null;
     
     const canvas = await html2canvas(element, { 
-      scale: 2,
+      scale: 3, // Increase scale for higher quality text rendering
       useCORS: true, 
-      backgroundColor: '#ffffff'
+      backgroundColor: '#ffffff',
+      onclone: (document) => {
+        // Remove transform scaling from the clone so it doesn't squish the text
+        const wrapper = document.getElementById('printable-receipt-wrapper');
+        if (wrapper) {
+          wrapper.style.transform = 'none';
+        }
+      }
     });
     
-    const imgData = canvas.toDataURL('image/png');
+    const imgData = canvas.toDataURL('image/png', 1.0);
     const pdf = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
@@ -73,7 +80,7 @@ export default function App() {
     }
     
     const xOffset = (pageWidth - finalWidth) / 2;
-    pdf.addImage(imgData, 'PNG', xOffset, 0, finalWidth, finalHeight);
+    pdf.addImage(imgData, 'PNG', xOffset, 0, finalWidth, finalHeight, undefined, 'FAST');
     
     return pdf.output('blob');
   };
@@ -105,12 +112,18 @@ export default function App() {
     setIsExporting(true);
     try {
       const canvas = await html2canvas(element, { 
-        scale: 2,
+        scale: 3,
         useCORS: true, 
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        onclone: (document) => {
+          const wrapper = document.getElementById('printable-receipt-wrapper');
+          if (wrapper) {
+            wrapper.style.transform = 'none';
+          }
+        }
       });
-      const imgData = canvas.toDataURL('image/png');
-      const base64Data = imgData.replace(/^data:image\/png;base64,/, "");
+      const imgData = canvas.toDataURL('image/png', 1.0);
+      const imgArrayBuffer = await (await fetch(imgData)).arrayBuffer();
 
       const doc = new Document({
         sections: [
@@ -127,9 +140,14 @@ export default function App() {
             },
             children: [
               new Paragraph({
+                spacing: {
+                  before: 0,
+                  after: 0,
+                },
                 children: [
                   new ImageRun({
-                    data: Uint8Array.from(atob(base64Data), c => c.charCodeAt(0)),
+                    data: imgArrayBuffer,
+                    type: "png",
                     transformation: {
                       width: 794,
                       height: 1123,
@@ -314,6 +332,7 @@ export default function App() {
         {/* Responsive scaling container */}
         <div className="w-full max-w-full overflow-x-auto pb-8 flex justify-center">
           <div 
+            id="printable-receipt-wrapper"
             className="shadow-2xl print:shadow-none border border-gray-200 print:border-none bg-white origin-top shrink-0" 
             style={{ 
               width: '210mm', 

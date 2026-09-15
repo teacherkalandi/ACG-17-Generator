@@ -106,7 +106,7 @@ export function ReceiptPreview({ data }: ReceiptPreviewProps) {
       </div>
 
       {/* Notes */}
-      <div className="text-[14px] leading-snug font-bold text-justify">
+      <div className="text-[14px] leading-snug font-bold text-left">
         <p className="mb-1">
           Note :- If the receipt be not written or not signed in English/Hindi the whole of the portion not in English/Hindi must be translated by the Paying Officer. A person signing such receipt in Hindi should be required to indicate his full name in block letters within brackets below his signature.
         </p>
@@ -135,7 +135,7 @@ export function ReceiptPreview({ data }: ReceiptPreviewProps) {
         Disbursing Officer
       </div>
 
-      <div className="font-bold text-[15px] leading-snug mb-8 text-justify">
+      <div className="font-bold text-[15px] leading-snug mb-8 text-left">
         2. Received contents and certified that I have satisfied myself that all advances included in receipt form A.C.G. 17 drawn 1 month / 2 months / 3 months previous to this date with the exception of those detailed below (of which the total has been refunded from this receipt) has been disbursed to the proper persons and that their acceptances have been taken & filed in my office with receipt stamps duly cancelled for every payment in excess of Rs. 5000/-
       </div>
 
