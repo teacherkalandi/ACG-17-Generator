@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ReceiptPreview, ReceiptData } from './components/ReceiptPreview';
-import { Printer, Download, Share2, FileText } from 'lucide-react';
+import { Download, Share2, FileText } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { Document, Packer, Paragraph, ImageRun } from 'docx';
@@ -34,13 +34,6 @@ export default function App() {
       ...prev,
       [name]: name === 'amount' ? (value === '' ? '' : Number(value)) : value,
     }));
-  };
-
-  const handlePrint = () => {
-    // Standard window.print()
-    // It works best if the user triggers it directly, but in some iframes it might be blocked.
-    // If blocked, we rely on the PDF export.
-    window.print();
   };
 
   const generatePDFBlob = async (): Promise<Blob | null> => {
@@ -286,14 +279,6 @@ export default function App() {
         </div>
 
         <div className="p-6 pt-4 border-t bg-gray-50 flex flex-col gap-3">
-          <button
-            onClick={handlePrint}
-            className="w-full bg-[#ce1126] hover:bg-[#b00f1f] text-white font-semibold py-3 px-4 rounded flex items-center justify-center gap-2 transition-colors shadow-sm"
-          >
-            <Printer size={20} />
-            Print
-          </button>
-          
           <div className="flex gap-2">
             <button
               onClick={handleDownloadPDF}
