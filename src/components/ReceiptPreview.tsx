@@ -37,9 +37,9 @@ export function ReceiptPreview({ data }: ReceiptPreviewProps) {
 
       {/* Logo & Department */}
       <div className="relative flex justify-center text-center mt-2 mb-6 min-h-[70px]">
-        <div className="absolute left-0 top-0 w-32 mix-blend-multiply flex items-start">
+        <div className="absolute left-0 top-0 w-32 flex items-start">
           <img 
-            src="https://upload.wikimedia.org/wikipedia/commons/b/be/India-post-logo.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail_unscaled&_=20191117102907" 
+            src="https://upload.wikimedia.org/wikipedia/en/3/32/India_Post.svg" 
             alt="India Post Logo" 
             className="w-full h-auto grayscale"
             referrerPolicy="no-referrer"
