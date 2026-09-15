@@ -5,9 +5,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { ReceiptPreview, ReceiptData } from './components/ReceiptPreview';
-import { Printer, Download, Share2 } from 'lucide-react';
+import { Printer, Download, Share2, FileText } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import { Document, Packer, Paragraph, ImageRun } from 'docx';
 
 export default function App() {
   const [data, setData] = useState<ReceiptData>({
@@ -92,6 +93,65 @@ export default function App() {
     } catch (error) {
       console.error('Error generating PDF:', error);
       alert('Failed to generate PDF. Please try again.');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleDownloadDoc = async () => {
+    const element = document.getElementById('printable-receipt');
+    if (!element) return;
+
+    setIsExporting(true);
+    try {
+      const canvas = await html2canvas(element, { 
+        scale: 2,
+        useCORS: true, 
+        backgroundColor: '#ffffff'
+      });
+      const imgData = canvas.toDataURL('image/png');
+      const base64Data = imgData.replace(/^data:image\/png;base64,/, "");
+
+      const doc = new Document({
+        sections: [
+          {
+            properties: {
+              page: {
+                margin: {
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 0,
+                },
+              },
+            },
+            children: [
+              new Paragraph({
+                children: [
+                  new ImageRun({
+                    data: Uint8Array.from(atob(base64Data), c => c.charCodeAt(0)),
+                    transformation: {
+                      width: 794,
+                      height: 1123,
+                    },
+                  }),
+                ],
+              }),
+            ],
+          },
+        ],
+      });
+
+      const blob = await Packer.toBlob(doc);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ACG-17_Voucher_${data.voucherNo || 'New'}.docx`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error generating DOCX:', error);
+      alert('Failed to generate DOCX. Please try again.');
     } finally {
       setIsExporting(false);
     }
@@ -220,17 +280,25 @@ export default function App() {
             <button
               onClick={handleDownloadPDF}
               disabled={isExporting}
-              className="flex-1 bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 disabled:opacity-50 font-semibold py-3 px-4 rounded flex items-center justify-center gap-2 transition-colors shadow-sm"
+              className="flex-1 bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 disabled:opacity-50 font-semibold py-3 rounded flex items-center justify-center gap-1 transition-colors shadow-sm text-sm"
             >
-              <Download size={20} className={isExporting ? 'animate-bounce text-[#ce1126]' : 'text-[#ce1126]'} />
+              <Download size={18} className={isExporting ? 'animate-bounce text-[#ce1126]' : 'text-[#ce1126]'} />
               PDF
+            </button>
+            <button
+              onClick={handleDownloadDoc}
+              disabled={isExporting}
+              className="flex-1 bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 disabled:opacity-50 font-semibold py-3 rounded flex items-center justify-center gap-1 transition-colors shadow-sm text-sm"
+            >
+              <FileText size={18} className={isExporting ? 'animate-bounce text-blue-600' : 'text-blue-600'} />
+              DOC
             </button>
             <button
               onClick={handleWhatsAppShare}
               disabled={isExporting}
-              className="flex-1 bg-[#25D366] hover:bg-[#20b858] disabled:bg-[#7ce09f] text-white font-semibold py-3 px-4 rounded flex items-center justify-center gap-2 transition-colors shadow-sm"
+              className="flex-1 bg-[#25D366] hover:bg-[#20b858] disabled:bg-[#7ce09f] text-white font-semibold py-3 rounded flex items-center justify-center gap-1 transition-colors shadow-sm text-sm"
             >
-              <Share2 size={20} />
+              <Share2 size={18} />
               Share
             </button>
           </div>
